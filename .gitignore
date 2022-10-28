@@ -1,0 +1,12 @@
+# folders
+node_modules
+.openzeppelin
+artifacts
+cache
+
+#  secrets
+.env
+
+
+
+
