@@ -9,12 +9,10 @@ contract PriceFeedTrackerV2 is Initializable {
     address public pricefeed;
 
     // Emitted when the stored value changes
-    event PriceFeedChangedTo(address newFeed);
+    event PriceFeedChanged(address oldfeed, address newfeed);
 
     function initialize(address _admin) public initializer {
         admin = _admin;
-        pricefeed = 0xD4a33860578De61DBAbDc8BFdb98FD742fA7028e; // initialize with ETH/USD on Goerli.
-        emit PriceFeedChangedTo(pricefeed);
     }
 
     function getAdmin() public view returns (address) {
@@ -23,17 +21,18 @@ contract PriceFeedTrackerV2 is Initializable {
 
     // Updates price feed address
     function setPriceFeed(address newfeed) public {
-        // address oldfeed = pricefeed;
+        address old = pricefeed;
         pricefeed = newfeed;
-        emit PriceFeedChangedTo(newfeed);
-    }
-
-    function getPriceFeed() public view returns (address) {
-        return pricefeed;
+        emit PriceFeedChanged(old, newfeed);
     }
 
     // Fetches the price from the pricefeed
     function retrievePrice() public view returns (int) {
+        require(
+            pricefeed != address(0x0),
+            "PriceFeedTrackerV2: Pricefeed address not set."
+        );
+
         AggregatorV3Interface aggregator = AggregatorV3Interface(pricefeed);
         (
             ,

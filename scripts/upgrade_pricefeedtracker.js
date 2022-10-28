@@ -1,7 +1,7 @@
 const { ethers, upgrades } = require("hardhat");
 
 async function main() {
-  const deployedProxyAddress = "0x9fcbBf6F6F3f381FaA79Bb88a04711143cf2fed1"; // Check this address is right before deploying.
+  const deployedProxyAddress = "0xdB7d8eBC621B9310de6e092656B4A78667B2a9Fe"; // Check this address is right before deploying.
   const PriceFeedTrackerV2 = await ethers.getContractFactory(
     "PriceFeedTrackerV2"
   );
