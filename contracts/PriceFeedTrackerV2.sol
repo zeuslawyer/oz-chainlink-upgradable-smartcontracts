@@ -6,10 +6,10 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 contract PriceFeedTrackerV2 is Initializable {
     address private admin;
-    address public pricefeed;
+    int public price; // TODO new storage slot
 
-    // Emitted when the stored value changes
-    event PriceFeedChanged(address oldfeed, address newfeed);
+    // Emitted when the price is retrieved changes
+    event PriceRetrievedFrom(address feed, int price);
 
     function initialize(address _admin) public initializer {
         admin = _admin;
@@ -19,30 +19,27 @@ contract PriceFeedTrackerV2 is Initializable {
         return admin;
     }
 
-    // Updates price feed address
-    function setPriceFeed(address newfeed) public {
-        address old = pricefeed;
-        pricefeed = newfeed;
-        emit PriceFeedChanged(old, newfeed);
-    }
-
-    // Fetches the price from the pricefeed
-    function retrievePrice() public view returns (int) {
+    // Fetches the price from the feed.
+    // Note that the function is no longer a view function as it emits an event.
+    function retrievePrice(address feed) public {
         require(
-            pricefeed != address(0x0),
-            "PriceFeedTrackerV2: Pricefeed address not set."
+            feed != address(0x0),
+            "PriceFeedTrackerV2: Pricefeed address must not be zero address."
         );
 
-        AggregatorV3Interface aggregator = AggregatorV3Interface(pricefeed);
+        AggregatorV3Interface aggregator = AggregatorV3Interface(feed);
         (
             ,
             /*uint80 roundID*/
-            int price, /*uint startedAt*/ /*uint timeStamp*/ /*uint80 answeredInRound*/
+            int _price, /*uint startedAt*/ /*uint timeStamp*/ /*uint80 answeredInRound*/
             ,
             ,
 
         ) = aggregator.latestRoundData();
 
-        return price;
+        price = _price;
+        emit PriceRetrievedFrom(feed, _price);
+
+        // return price;
     }
 }

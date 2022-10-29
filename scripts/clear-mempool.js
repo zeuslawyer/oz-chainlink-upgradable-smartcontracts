@@ -8,6 +8,9 @@ async function main() {
   );
 
   const gasPrice = await alchemy.getGasPrice();
+  console.log(gasPrice);
+
+  return;
 
   const DEV1 = new ethers.Wallet(process.env.WALLET_PRIVATE_KEY_DEV1, alchemy);
   const DEV2 = "0x52eE5a881287486573cF5CB5e7E7D92F30b03014";
@@ -29,3 +32,4 @@ async function main() {
 }
 
 main();
+
