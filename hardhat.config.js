@@ -6,6 +6,8 @@ const GOERLI_RPC_URL =
 
 const PRIVATE_KEY = process.env.WALLET_PRIVATE_KEY_DEV1;
 
+const ETHERSCAN_KEY = process.env.ETHERSCAN_API_KEY;
+
 task(
   "balances",
   "Prints the list of AVAX account balances",
@@ -38,5 +40,8 @@ module.exports = {
       accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [],
       chainId: 5,
     },
+  },
+  etherscan: {
+    apiKey: ETHERSCAN_KEY,
   },
 };

@@ -6,10 +6,10 @@ import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 contract PriceFeedTrackerV2 is Initializable {
     address private admin;
-    int public price; // TODO new storage slot
+    int public price; // NOTE: new storage slot
 
     // Emitted when the price is retrieved changes
-    event PriceRetrievedFrom(address feed, int price);
+    event PriceRetrievedFrom(address feed, int price, uint timestamp);
 
     function initialize(address _admin) public initializer {
         admin = _admin;
@@ -33,13 +33,13 @@ contract PriceFeedTrackerV2 is Initializable {
             /*uint80 roundID*/
             int _price, /*uint startedAt*/ /*uint timeStamp*/ /*uint80 answeredInRound*/
             ,
-            ,
+            uint timestamp,
 
         ) = aggregator.latestRoundData();
 
         price = _price;
 
-        emit PriceRetrievedFrom(feed, _price);
+        emit PriceRetrievedFrom(feed, _price, timestamp);
 
         return price;
     }
