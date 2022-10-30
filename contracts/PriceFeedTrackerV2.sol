@@ -21,7 +21,7 @@ contract PriceFeedTrackerV2 is Initializable {
 
     // Fetches the price from the feed.
     // Note that the function is no longer a view function as it emits an event.
-    function retrievePrice(address feed) public {
+    function retrievePrice(address feed) public returns (int) {
         require(
             feed != address(0x0),
             "PriceFeedTrackerV2: Pricefeed address must not be zero address."
@@ -38,8 +38,9 @@ contract PriceFeedTrackerV2 is Initializable {
         ) = aggregator.latestRoundData();
 
         price = _price;
+
         emit PriceRetrievedFrom(feed, _price);
 
-        // return price;
+        return price;
     }
 }

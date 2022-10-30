@@ -39,3 +39,4 @@ contract PriceFeedTracker is Initializable {
 
 // 0xb35dC8619ce82c79D8Cf4f6Fa2e097e10dB41Fe6
 // 0xA6E8069ddfE9438b406e7b0AB598e6dd72E2Bba9
+// 0x443eE9Ed674734f84daC8D6e0a6BA0D8054066e1
